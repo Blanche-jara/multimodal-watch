@@ -1,0 +1,60 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>멀티모달 AI · A4 한 장</title><style>
+@page{size:A4 landscape;margin:5.5mm}*{box-sizing:border-box}html,body{margin:0;color:#102b3c;background:#dfe7eb;font-family:'Malgun Gothic',Arial,sans-serif}body{padding:18px}.sheet{width:286mm;min-height:196mm;margin:auto;background:white;padding:0;box-shadow:0 6px 30px #19374420}header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #163e51;padding:0 0 2.3mm;margin-bottom:2mm}h1{font-size:18pt;letter-spacing:-.8px;margin:0;line-height:1.2}header p{font-size:7.5pt;margin:0;text-align:right;line-height:1.4}.columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3.3mm}.col{font-size:7.65pt;line-height:1.22;word-break:keep-all}.col+.col{border-left:1px solid #bcced8;padding-left:3.1mm}h2{font-size:8.6pt;margin:0 0 .8mm;background:#193f52;color:white;padding:1mm 1.4mm;line-height:1.25;break-after:avoid}h2 small{font-size:6.8pt;font-weight:normal;float:right;color:#d5e8ed}h3{font-size:8pt;margin:1mm 0 .3mm;color:#15576c}p{margin:.4mm 0 .7mm}b{font-weight:700}.eq{border:1px solid #bed2db;background:#edf5f7;padding:1.2mm 1.4mm;margin:.6mm 0 .9mm;font-size:7.4pt;line-height:1.26;word-break:normal}.tiny{font-size:7pt}.warn{border-left:2px solid #b26a2f;padding-left:1.3mm;margin:1mm 0;color:#7e431d}table{border-collapse:collapse;width:100%;font-size:7pt;line-height:1.25;margin:1mm 0}th,td{border:1px solid #bed0d9;padding:.65mm .8mm;text-align:left;vertical-align:top}th{background:#ecf3f6}footer{font-size:6.5pt;border-top:1px solid #9fb9c6;margin-top:1mm;padding-top:1mm;display:flex;justify-content:space-between;color:#496574}.screen{max-width:286mm;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:12px}.screen button{padding:8px 16px;border-radius:6px;background:#153f52;color:white;border:0;cursor:pointer}sub{font-size:.73em}sup{font-size:.73em}@media print{html,body{background:white;padding:0}.screen{display:none}.sheet{margin:0;box-shadow:none;min-height:0;width:286mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}@media screen and (max-width:900px){body{overflow-x:auto}.screen{width:286mm}}
+</style></head><body><div class="screen"><span>인쇄: A4 · 가로 · 배율 100% · 머리글/바닥글 끄기</span><button onclick="window.print()">한 장 인쇄 / PDF 저장</button></div><main class="sheet"><header><h1>멀티모달 AI · 중간고사 단일 페이퍼</h1><p>1–4강 / 개념·수식·모델 비교<br><b>정렬 → 적응 → 생성 → 시각 개선</b></p></header><div class="columns">
+<div class="col">
+<h2>01 · 기초와 CLIP <small>1강 / 2강 pp.4–43</small></h2>
+<p><b>Modality</b>=표현·지각 방식. Raw(픽셀/파형)→abstract(객체/의미). 멀티모달 이유: 인간 경험·실제 응용·데이터 확장. <b>Foundation model</b>=대규모 자기지도 사전학습→다양한 downstream task.</p>
+<p><b>Profile</b>: distribution·granularity·structure·information·noise. p17 종합 <b>6축</b>: representations/distributions/structure/information/noise/<b>relevance</b>(과제·문맥). <b>BoW는 순서 소실.</b></p>
+<h3>CLIP = Contrastive Language–Image Pre-training</h3>
+<p><b>400M image–text pairs</b>. image encoder(ViT/ResNet)+text Transformer(EOT/causal/77)→공통 공간. ViT=patch→linear+pos→Transformer/CLS. 정규화 벡터의 내적=cosine. CLIP은 문장 생성보다 <b>짝 맞추기</b>.</p>
+<div class="eq"><b>S<sub>ij</sub>=I<sub>i</sub>·T<sub>j</sub>/τ</b> (I,T: L2 정규화)<br>L<sub>I→T</sub>=−(1/N)Σ<sub>i</sub>log[e<sup>Sii</sup>/Σ<sub>j</sub>e<sup>Sij</sup>]<br>L<sub>T→I</sub>=−(1/N)Σ<sub>i</sub>log[e<sup>Sii</sup>/Σ<sub>j</sub>e<sup>Sji</sup>]<br><b>L=(L<sub>I→T</sub>+L<sub>T→I</sub>)/2</b></div>
+<p><b>N×N</b>: 행=image, 열=text. 대각 양성 N개, 음성 N(N−1)개. <b>행·열 CE 모두</b>. τ↓→softmax 더 뾰족. 균일 점수면 L=ln N. SimCLR 양성=같은 이미지의 두 view.</p>
+<h3>Zero-shot / 평가</h3>
+<p>“a photo of a {class}”→T<sub>k</sub>; <b>ŷ=argmax<sub>k</sub> I·T<sub>k</sub></b>. 텍스트 특징=분류기 가중치. 여러 템플릿 평균=prompt ensemble. <b>Zero-shot</b>: 타깃 라벨 추가학습 없음. <b>Linear probe</b>: encoder 고정+head 학습. <b>Fine-tune</b>: encoder도 갱신.</p>
+<h2>02 · 강건성·SigLIP·한계 <small>2강 pp.45–72</small></h2>
+<p><b>Effective robustness</b>: 원래 분포 성능을 감안한 shift 저항. 통제 실험의 핵심 원인=<b>학습 데이터 분포</b>. 언어 감독·규모·prompt·대조 손실만으로 설명 X. 혼합 강건성은 가산 X, 분포 사이 보간. <b>R(YFCC)&lt;R(혼합)&lt;R(LAION)</b>.</p>
+<h3>SigLIP = 쌍별 sigmoid 이진 손실</h3>
+<div class="eq">z<sub>ij</sub>=+1(짝), −1(비짝); s<sub>ij</sub>=t I<sub>i</sub>·T<sub>j</sub>−b<br><b>L=(1/B)Σ<sub>i,j</sub>log[1+exp(−z<sub>ij</sub>s<sub>ij</sub>)]</b><br><span class="tiny">b 부호: 2강 p.59 원본 기준; t,b 학습 가능.</span></div>
+<p>배치 전역 softmax 분모 없음→분할/분산·메모리 효율. <b>음성쌍은 여전히 필요.</b> 작은 batch에서 유리, 큰 batch에서 유사한 경향.</p>
+<p><b>장점</b>: 싼 내적→검색·확장, open vocabulary.<br><b>한계</b>: 관계/세부 개념→hard negatives; 이미지 전체 캡션의 지역성 부족→<b>region caption+box</b>.</p>
+<p class="tiny"><b>DataComp</b>=데이터 필터 중요, 큰 데이터≠항상 좋음. <b>Meta CLIP 2</b>=다국어 확장. <b>Perception Encoder</b>=좋은 특징은 중간 층에도 존재.</p>
+</div>
+<div class="col">
+<h2>03 · 적은 데이터로 CLIP 적응 <small>3강 pp.4–54</small></h2>
+<p><b>Engineering</b>=사람이 문구 선택. <b>Learning</b>=연속 prompt 벡터 학습. 작은 데이터의 무작정 full FT는 과적합 위험. <b>Frozen 가중치도 gradient 경로는 통과 가능.</b></p>
+<table><tr><th>방법</th><th>변경/학습 대상</th><th>핵심</th></tr><tr><td>CoOp</td><td>text context v<sub>1:M</sub></td><td>고정 문맥, base 과적합</td></tr><tr><td>CoCoOp</td><td>context+Meta-Net</td><td>이미지별 문맥, 느림</td></tr><tr><td>Pixel</td><td>공통 픽셀 패턴</td><td>입력 공간, 전 이미지 공통</td></tr><tr><td>VPT</td><td>visual tokens+head</td><td>임베딩 공간 shallow/deep</td></tr><tr><td>MaPLe</td><td>양쪽 deep prompt+F</td><td>text→vision coupling</td></tr><tr><td>Tip-Adapter</td><td>feature/label cache</td><td>추가 gradient 학습 없음</td></tr><tr><td>FLYP</td><td>image+text encoder</td><td>둘 다 FT, 대조 목표 유지</td></tr></table>
+<p class="tiny">CoOp·CoCoOp·Pixel·VPT·MaPLe는 pretrained backbone 동결. VPT는 task head도 학습. Tip은 labeled few-shot 데이터 필요.</p>
+<h3>CoOp / CoCoOp / MaPLe를 혼동하지 않기</h3>
+<p><b>CoOp</b>: t<sub>k</sub>=[v<sub>1</sub>…v<sub>M</sub>, CLASS<sub>k</sub>]. image/text encoder 고정, 문맥만 class CE로 학습. 길이 이득 체감·자연어 해석 어려움. <b>도메인 전이≠novel class 일반화.</b></p>
+<div class="eq"><b>CoCoOp</b>: π=h<sub>θ</sub>(f(x)), v<sub>m</sub>(x)=v<sub>m</sub>+π<br>p(k|x) ∝ exp[cos(f(x),g(t<sub>k</sub>(x)))/τ]</div>
+<p>Meta-Net이 <b>이미지 특징</b>에서 조건부 토큰 생성. novel/전이↑, 이미지마다 text encoding→느림. <b>MaPLe</b>: vision+language 여러 층 prompt, <b>P<sub>l</sub><sup>V</sup>=F<sub>l</sub>(P<sub>l</sub><sup>T</sup>)</b>, F=linear projection. CoCoOp는 image→text, MaPLe는 text prompt→vision prompt.</p>
+<p><b>VPT</b>: shallow=첫 층 입력만, deep=여러 층. <b>FLYP</b>: label→caption, 사전학습과 <b>같은 image–text contrastive objective</b>로 전체 FT. image+linear head class CE와의 mismatch 줄임.</p>
+<p><b>Tip</b>: query=test 특징, key=few-shot 이미지 특징 F, value=one-hot L. <b>A=exp[−β(1−fFᵀ)]</b>, logits=αAL+기존 CLIP logits.</p>
+<h3>일반화 평가 3축</h3>
+<p><b>Base→novel</b>: 같은 dataset의 새 클래스. <b>Cross-dataset</b>: 다른 dataset. <b>Domain generalization</b>: 같은 과제의 분포 변화. 균형 지표 <b>HM=2BN/(B+N)</b>(보충식).</p>
+<h2>04 · Open-vocabulary detection <small>3강 pp.55–65</small></h2>
+<p>Image 분류→region 탐지→pixel 분할. <b>ViLD</b>=Vision and Language Knowledge Distillation. <b>Class-agnostic localization</b>과 <b>언어 기반 classification</b> 분리.</p>
+<p><b>ViLD-Text</b>: region↔base text embedding, <b>CE</b>.<br><b>ViLD-Image</b>: region feature가 CLIP crop feature를 모방, <b>L1 distillation</b>.<br>Region feature <b>L2 정규화</b>와 <b>L1 loss</b> 구별.</p>
+<p>추론: region↔base+novel text 비교. 새 카테고리는 <b>text embeddings 교체</b>. LVIS rare=novel, <b>AP<sub>r</sub></b> 평가. 색·속성으로 어휘 확장.</p>
+<p class="tiny"><b>Learning to Name Classes</b>=문맥 대신 클래스명 표현 최적화. <b>HPS v2</b>=생성 이미지의 사람 선호 학습·예측·평가.</p>
+</div>
+<div class="col">
+<h2>05 · Transformer·Tokenizer <small>4강 pp.6–27</small></h2>
+<p>Transformer layer=<b>attention+FFN+LayerNorm+residual</b>. Decoder는 미래 누출을 causal mask로 차단.</p>
+<div class="eq">Attn(Q,K,V)=softmax(QKᵀ/√d<sub>k</sub>+M)V<br>M<sub>ij</sub>=0 (j≤i), <b>−∞ (j&gt;i)</b><br>p(x<sub>1:T</sub>)=∏<sub>t</sub>p(x<sub>t</sub>|x<sub>&lt;t</sub>)</div>
+<p>미래 score 0만 넣으면 softmax weight≠0. <b>−∞→확률 0.</b> 학습은 mask로 병렬, 생성은 autoregressive 순차. Greedy는 매번 최고 토큰, 전체 최고 문장 보장 X.</p>
+<p>문자열→tokenizer→<b>ID</b>→embedding lookup→LM. ID≠의미 벡터. <b>E∈ℝ<sup>d×|V|</sup></b>, 파라미터=d|V|. 큰 단위: sequence↓/어휘↑. Subword는 word 효율+character coverage 절충, 항상 형태소 X. Zipf: 빈도∝1/순위.</p>
+<h2>06 · MLLM / LLaVA <small>4강 pp.30–57</small></h2>
+<p><b>Vision encoder→connector→LLM</b>+instruction. CLIP-ViT-L/14의 <b>penultimate patch tokens</b>→projector→LLM 입력. 초기 projector=linear, 1.5=MLP.</p>
+<p><b>왜 penultimate?</b> 최종 CLS에 대조 감독, 최종 patch output 직접 감독 부족. 공간·세부 보존. 모든 patch가 학습 안 됐다는 뜻 X.</p>
+<p><b>데이터</b>: caption+object/box 텍스트→text-only GPT가 지시·답 생성→<b>(image,instruction,answer)</b>. GPT가 raw pixel을 보는 방식 X. Next-token pretrain≠instruction following.</p>
+<table><tr><th>단계</th><th>Vision</th><th>Proj.</th><th>LLM</th></tr><tr><td>S1 feature alignment</td><td>동결</td><td>학습</td><td>동결</td></tr><tr><td>S2 instruction tuning</td><td><b>동결</b></td><td>학습</td><td>학습</td></tr></table>
+<div class="eq">L=−Σ<sub>t</sub>log p(a<sub>t</sub>|image,instruction,a<sub>&lt;t</sub>)</div>
+<p class="tiny">시각 조건 아래 <b>답변 언어 토큰</b>의 AR loss. S1 595K pairs, S2 Instruct-158K(58K 대화/23K 묘사/77K 추론).</p>
+<h2>07 · Vision의 세 문제 <small>4강 pp.61–94</small></h2>
+<p><b>① Encoder</b>: 강의 이해 과제에서 CLIP/SigLIP가 유리. <b>Multi-crop</b>=고정 encoder로 고해상도; 576→2880 토큰. <b>VCoder</b>=seg/depth 추가.</p>
+<p><b>CLIP-blind pair</b>: CLIP cosine&gt;.95, DINOv2&lt;.6→<b>MMVP</b>. CLIP=의미 강점/세부 약점. <b>MoF</b>는 CLIP+DINOv2 상보적 특징(I-MoF 세부↑).</p>
+<p><b>② Token 비용</b>: attention <b>O(L²)</b>.<br><b>Q-Former</b>=정한 수 query로 압축.<br><b>Concat→projection</b>=이웃 4→1.<br><b>PruMerge</b>=중요 sample→kNN cluster→weighted average. <b>토큰 25%만 사용</b>(25% 감소 X).<br><b>UI graph</b>=구조적 중복, <b>selection+원위치 보존</b>.</p>
+<p><b>③ SoM</b>=Set-of-Mark. <b>의미 region 분할+말로 참조 가능한 mark</b>→grounding. 도구 SEEM/Semantic-SAM/SAM. 작은→큰 region overlay, 이전 region 제외. 가중치 학습보다 입력 표시 방식.</p>
+<p class="warn"><b>마지막 함정</b>: S2 vision 학습 X / SigLIP 음성 없음 X / Tip 데이터 없음 X / CoOp=CoCoOp X / SoM=VPT 학습토큰 X.</p>
+</div></div><footer><span>출처: 박관용 「멀티모달 AI」 1–4강. 쪽 표기는 PDF 기준. 식은 일관된 기호로 재표현.</span><span>A4 가로 · 1쪽 / 상세 그림·예상문제: multimodal_cram.html</span></footer></main></body></html>

@@ -1,5 +1,8 @@
 # 멀티모달 AI · 워치 암기 카드
 
+- [서술형 카드](https://blanche-jara.github.io/multimodal-watch/)
+- [연속 스크롤 총정리](https://blanche-jara.github.io/multimodal-watch/cram/): 사이드바 없이 전체 본문을 읽고, 비교표를 세로로 확인할 수 있습니다.
+
 갤럭시 워치처럼 작은 화면에서 읽는 멀티모달 AI 1–4강 복습 페이지입니다.
 
 - 8개 주제, 59개 예상 개념 문제와 서술형 답안
